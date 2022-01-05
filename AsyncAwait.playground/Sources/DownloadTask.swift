@@ -3,12 +3,13 @@ import UIKit
 
 
 public func downloadImageAndMetadata(imageNumber: Int) async throws -> DetailedImage {
-    let image = try await downloadImage(imageNumber: imageNumber)
-    let metadata = try await downloadMetadata(for: imageNumber)
-    return DetailedImage(image: image, metadata: metadata)
+    async let image =  downloadImage(imageNumber: imageNumber)
+    async let  metadata =  downloadMetadata(for: imageNumber)
+    return try DetailedImage(image: await image, await metadata: metadata)
 }
 
 public func downloadImage(imageNumber: Int) async throws -> UIImage {
+    try Task.checkCancellation()
     let imageUrl = URL(string: "https://www.andyibanez.com/fairesepages.github.io/tutorials/async-await/part1/\(imageNumber).png")!
     let imageRequest = URLRequest(url: imageUrl)
     let (data, imageResponse) = try await URLSession.shared.data(for: imageRequest)
@@ -19,6 +20,7 @@ public func downloadImage(imageNumber: Int) async throws -> UIImage {
 }
 
 public func downloadMetadata(for id: Int) async throws -> ImageMetadata {
+    try Task.checkCancellation()
     let metadataUrl = URL(string: "https://www.andyibanez.com/fairesepages.github.io/tutorials/async-await/part1/\(id).json")!
     let metadataRequest = URLRequest(url: metadataUrl)
     let (data, metadataResponse) = try await URLSession.shared.data(for: metadataRequest)
