@@ -15,7 +15,7 @@ public class ViewModel: ObservableObject {
     public func getData() {
         Task {
             image = try! await character.image
-            text = try! await character.metadata.name
+            text = try! await "\(character.metadata.name) (\(character.metadata.firstAppearance) - \(character.metadata.year))"
         }
     }
 }

@@ -9,7 +9,15 @@ public struct ImageMetadata: Codable {
 
 public struct DetailedImage {
     public  let image: UIImage
-    public let metadata: ImageMetadata
+    public  let metadata: ImageMetadata
+    
+    public init(
+        image: UIImage,
+        metadata: ImageMetadata
+    ) {
+        self.image = image
+        self.metadata = metadata
+    }
 }
 
 public enum ImageDownloadError: Error {
@@ -20,14 +28,14 @@ public enum ImageDownloadError: Error {
 
 public struct Character {
     let id: Int
-
+    
     public var metadata: ImageMetadata {
         get async throws {
             let metadata = try await downloadMetadata(for: id)
             return metadata
         }
     }
-
+    
     public var image: UIImage {
         get async throws {
             return try await downloadImage(imageNumber: id)
