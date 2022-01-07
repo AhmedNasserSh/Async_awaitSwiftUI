@@ -3,5 +3,8 @@
     <pages>
         <page name='Continuations'/>
         <page name='SwiftUI'/>
+        <page name='TaskGroup'/>
+        <page name='DetachedTask'/>
+        <page name='Actors'/>
     </pages>
 </playground>
